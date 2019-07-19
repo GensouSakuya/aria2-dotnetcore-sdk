@@ -10,7 +10,7 @@ namespace GensouSakuya.Aria2.SDK
 {
     public class Aria2Client
     {
-        internal Aria2Client(string host, int port)
+        public Aria2Client(string host, int port)
         {
             if (!host.StartsWith("http://") && !host.StartsWith("https://"))
             {
