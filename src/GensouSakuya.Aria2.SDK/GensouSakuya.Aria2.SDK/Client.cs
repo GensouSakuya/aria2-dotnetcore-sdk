@@ -9,7 +9,7 @@ namespace GensouSakuya.Aria2.SDK
     internal class Client
     {        
         private RpcClient _rpcClient = null;
-        private string _secret = null;
+        private readonly string _secret = null;
 
         public Client(string baseUri,string secret)
         {
