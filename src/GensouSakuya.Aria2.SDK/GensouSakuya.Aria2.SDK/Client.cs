@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EdjCase.JsonRpc.Client;
 using GensouSakuya.Aria2.SDK.Model;
+using Newtonsoft.Json;
 
 namespace GensouSakuya.Aria2.SDK
 {
@@ -20,7 +21,17 @@ namespace GensouSakuya.Aria2.SDK
         public BaseResponse SendRequest(BaseRequest req)
         {
             BaseResponse response = null;
-            Task.WaitAll(Task.Run(async () => response = new BaseResponse(await _rpcClient.SendRequestAsync(req.ToRpcRequest()))));
+            Task.WaitAll(Task.Run(async () =>
+            {
+                try
+                {
+                    response = new BaseResponse(await _rpcClient.SendRequestAsync(req.ToRpcRequest()));
+                }
+                catch (Exception e)
+                {
+                    response = new BaseResponse(GetResByException(e));
+                }
+            }));
             return response;
         }
 
@@ -31,7 +42,45 @@ namespace GensouSakuya.Aria2.SDK
 
         public async Task<BaseResponse> SendRequestAsync(BaseRequest req)
         {
-            return new BaseResponse(await _rpcClient.SendRequestAsync(req.ToRpcRequest()));
+            BaseResponse response = null;
+            try
+            {
+                response = new BaseResponse(await _rpcClient.SendRequestAsync(req.ToRpcRequest()));
+            }
+            catch (Exception e)
+            {
+                response = new BaseResponse(GetResByException(e));
+            }
+            return response;
+        }
+
+        private RpcErrorResponse GetResByException(Exception e)
+        {
+            RpcClientInvalidStatusCodeException invalidStatusCodeException = null;
+            if (e != null && e is RpcClientInvalidStatusCodeException)
+            {
+                invalidStatusCodeException = e as RpcClientInvalidStatusCodeException;
+            }
+            else if (e.InnerException != null && e.InnerException is RpcClientInvalidStatusCodeException)
+            {
+                invalidStatusCodeException = e.InnerException as RpcClientInvalidStatusCodeException;
+            }
+
+            if (invalidStatusCodeException != null)
+            {
+                return JsonConvert.DeserializeObject<RpcErrorResponse>(invalidStatusCodeException.Content);
+            }
+            else
+            {
+                return new RpcErrorResponse
+                {
+                    Id = null,
+                    Error = new Aria2Error
+                    {
+                        Code = -1, Message = "Unknown Exception"
+                    }
+                };
+            }
         }
     }
 }

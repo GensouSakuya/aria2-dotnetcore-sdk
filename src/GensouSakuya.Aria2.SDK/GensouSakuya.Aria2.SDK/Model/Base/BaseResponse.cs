@@ -24,6 +24,14 @@ namespace GensouSakuya.Aria2.SDK.Model
             ErrorMessage = rpcRes.Error?.Message;
         }
 
+        public BaseResponse(RpcErrorResponse error)
+        {
+            Guid = new Guid(error.Id.StringValue);
+            IsSuccess = false;
+            Result = error.Error;
+            ErrorMessage = error.Error?.Message;
+        }
+
         public Guid Guid { get; set; }
 
         public bool IsSuccess { get; private set; }
@@ -31,5 +39,17 @@ namespace GensouSakuya.Aria2.SDK.Model
         public object Result { get; private set; }
 
         public string ErrorMessage { get; private set; }
+    }
+
+    internal class RpcErrorResponse
+    {
+        public RpcId Id { get; set; }
+        public Aria2Error Error { get; set; }
+    }
+
+    internal class Aria2Error
+    {
+        public int Code { get; set; }
+        public string Message { get; set; }
     }
 }
