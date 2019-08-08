@@ -26,6 +26,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public GetFilesResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             Info = JsonConvert.DeserializeObject<List<FileModel>>(res.Result as string);
         }
 

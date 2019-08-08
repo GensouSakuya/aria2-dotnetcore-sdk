@@ -26,6 +26,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public GetPeersResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             Info = JsonConvert.DeserializeObject<List<PeerModel>>(res.Result as string);
         }
 

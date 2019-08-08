@@ -22,6 +22,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public UnpauseResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             GID = res.Result as string;
         }
 

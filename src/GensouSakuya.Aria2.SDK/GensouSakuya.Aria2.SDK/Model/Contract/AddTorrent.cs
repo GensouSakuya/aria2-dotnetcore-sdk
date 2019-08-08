@@ -34,6 +34,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public AddTorrentResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             GID = res.Result as string;
         }
 

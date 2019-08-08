@@ -13,6 +13,10 @@
     {
         public ForceShutdownResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
         }
     }
 }

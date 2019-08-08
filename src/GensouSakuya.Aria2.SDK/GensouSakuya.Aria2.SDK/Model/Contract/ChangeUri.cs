@@ -39,6 +39,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public ChangeUriResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             UriResult = JsonConvert.DeserializeObject<List<int>>(res.Result as string);
         }
 

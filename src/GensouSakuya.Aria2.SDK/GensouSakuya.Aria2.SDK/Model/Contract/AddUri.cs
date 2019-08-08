@@ -36,6 +36,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public AddUriResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             GID = res.Result as string;
         }
 

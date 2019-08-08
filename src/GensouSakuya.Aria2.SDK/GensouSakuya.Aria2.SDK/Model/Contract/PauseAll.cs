@@ -22,6 +22,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public PauseAllResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
         }
     }
 }

@@ -31,6 +31,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public TellStatusResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             Info = JsonConvert.DeserializeObject<DownloadStatusModel>(res.Result as string);
         }
         public DownloadStatusModel Info { get; private set; }

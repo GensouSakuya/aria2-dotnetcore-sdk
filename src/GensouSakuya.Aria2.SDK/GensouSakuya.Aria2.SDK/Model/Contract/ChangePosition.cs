@@ -50,6 +50,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public ChangePositionResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             int.TryParse(res.Result as string, out int pos);
             Position = pos;
         }

@@ -26,6 +26,10 @@ namespace GensouSakuya.Aria2.SDK.Model
     {
         public GetServersResponse(BaseResponse res) : base(res)
         {
+            if (!IsSuccess)
+            {
+                return;
+            }
             Info = JsonConvert.DeserializeObject<List<ServerModel>>(res.Result as string);
         }
 
