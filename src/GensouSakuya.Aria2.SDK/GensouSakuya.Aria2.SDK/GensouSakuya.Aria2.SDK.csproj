@@ -6,6 +6,7 @@
     <Authors>GensouSakuya</Authors>
     <RepositoryUrl>https://github.com/GensouSakuya/aria2-dotnetcore-sdk</RepositoryUrl>
     <RepositoryType>github</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
