@@ -19,7 +19,9 @@ namespace GensouSakuya.Aria2.SDK
 
         public BaseResponse SendRequest(BaseRequest req)
         {
-            return new BaseResponse(_rpcClient.SendRequestAsync(req.ToRpcRequest()).Result);
+            BaseResponse response = null;
+            Task.WaitAll(Task.Run(async () => response = new BaseResponse(await _rpcClient.SendRequestAsync(req.ToRpcRequest()))));
+            return response;
         }
 
         public void SendRequestWithoutResponse(BaseRequest req)
