@@ -46,7 +46,7 @@ namespace GensouSakuya.Aria2.SDK
         /// <param name="proxy">代理地址</param>
         /// <param name="position">下载队列位置，超过队列长度则排到队尾</param>
         /// <returns>下载请求的GID</returns>
-        public async Task<string> AddUri(IEnumerable<string> uris, int? split = 0, string proxy = null,int? position = null)
+        public async Task<string> AddUri(IEnumerable<string> uris, int? split = null, string proxy = null,int? position = null)
         {
             var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy) ? new Options(split, proxy) : null;
             var res = new AddUriResponse(await _client.SendRequestAsync(new AddUriRequest
@@ -66,7 +66,7 @@ namespace GensouSakuya.Aria2.SDK
         /// <param name="proxy">代理地址</param>
         /// <param name="position">下载队列位置，超过队列长度则排到队尾</param>
         /// <returns>下载请求的GID</returns>
-        public async Task<string> AddTorrentBase64(string torrentBase64, int? split = 0, string proxy = null, int? position = null)
+        public async Task<string> AddTorrentBase64(string torrentBase64, int? split = null, string proxy = null, int? position = null)
         {
             var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy) ? new Options(split, proxy) : null;
             return new AddTorrentResponse(await _client.SendRequestAsync(new AddTorrentRequest
@@ -85,7 +85,7 @@ namespace GensouSakuya.Aria2.SDK
         /// <param name="proxy">代理地址</param>
         /// <param name="position">下载队列位置，超过队列长度则排到队尾</param>
         /// <returns>下载请求的GID</returns>
-        public async Task<string> AddTorrentFile(string torrentFilePath, int? split = 0, string proxy = null, int? position = null)
+        public async Task<string> AddTorrentFile(string torrentFilePath, int? split = null, string proxy = null, int? position = null)
         {
             if (!File.Exists(torrentFilePath))
             {
@@ -104,7 +104,7 @@ namespace GensouSakuya.Aria2.SDK
         /// <param name="proxy">代理地址</param>
         /// <param name="position">下载队列位置，超过队列长度则排到队尾</param>
         /// <returns>下载请求的GID</returns>
-        public async Task<string> AddTorrentFile(FileInfo torrentFile, int? split = 0, string proxy = null, int? position = null)
+        public async Task<string> AddTorrentFile(FileInfo torrentFile, int? split = null, string proxy = null, int? position = null)
         {
             byte[] buff = new byte[torrentFile.Length];
 
