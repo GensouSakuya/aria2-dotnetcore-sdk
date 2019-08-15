@@ -24,7 +24,7 @@ namespace GensouSakuya.Aria2.SDK.Model
         public string BelongsTo { get; set; }
         public string Dir { get; set; }
         public List<FileModel> Files { get; set; }
-        public List<BitTorrentModel> BitTorrent { get; set; }
+        public BitTorrentModel BitTorrent { get; set; }
         public int VerifiedLength { get; set; }
         public bool VerifyIntegrityPending { get; set; }
     }
