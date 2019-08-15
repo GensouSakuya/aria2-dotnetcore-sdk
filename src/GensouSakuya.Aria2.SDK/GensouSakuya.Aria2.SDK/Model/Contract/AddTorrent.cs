@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GensouSakuya.Aria2.SDK.Model
 {
@@ -7,6 +9,7 @@ namespace GensouSakuya.Aria2.SDK.Model
         public string torrent { get; set; }
         public Options Options { get; set; }
         public int? Position { get; set; }
+        public List<string> Uris { get; set; }
 
         protected override string MethodName => "aria2.addTorrent";
 
@@ -18,6 +21,10 @@ namespace GensouSakuya.Aria2.SDK.Model
             }
             
             AddParam(torrent);
+            if (Uris != null && Uris.Any())
+            {
+                AddParam(Uris);
+            }
 
             if (Options != null)
             {
