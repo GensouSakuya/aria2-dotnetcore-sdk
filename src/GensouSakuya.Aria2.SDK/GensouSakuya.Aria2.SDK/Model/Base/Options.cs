@@ -14,7 +14,12 @@
 
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            //  Reduce the size of JSON string
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.None,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore, StringEscapeHandling = StringEscapeHandling.EscapeHtml
+                });
         }
     }
 }
