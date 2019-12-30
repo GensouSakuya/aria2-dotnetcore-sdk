@@ -1,21 +1,24 @@
-﻿namespace GensouSakuya.Aria2.SDK.Model
+﻿using Newtonsoft.Json;
+
+namespace GensouSakuya.Aria2.SDK.Model.Base
 {
     internal class Options
     {
-        public Options(int? split, string proxy)
-        {
-            Split = split ?? 1;
-            Http_Proxy = proxy ?? "";
-        }
+        [JsonProperty("split")]
+        public int? Split { get; set; }
 
-        public int Split { get; set; }
+        [JsonProperty("http-proxy")]
+        public string HttpProxy { get; set; }
 
-        public string Http_Proxy { get; set; }
+        [JsonProperty("dir")]
+        public string Directory { get; set; }
+
+        [JsonProperty("max-download-limit")]
+        public ulong? MaxDownloadSpeed { get; set; }
 
         public override string ToString()
         {
-            //  Reduce the size of JSON string
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this, Formatting.None,
+            return JsonConvert.SerializeObject(this, Formatting.None,
                 new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Ignore, StringEscapeHandling = StringEscapeHandling.EscapeHtml

@@ -1,4 +1,6 @@
-﻿namespace GensouSakuya.Aria2.SDK.Model
+﻿using GensouSakuya.Aria2.SDK.Model.Base;
+
+namespace GensouSakuya.Aria2.SDK.Model
 {
     internal class ShutdownRequest : BaseRequest
     {

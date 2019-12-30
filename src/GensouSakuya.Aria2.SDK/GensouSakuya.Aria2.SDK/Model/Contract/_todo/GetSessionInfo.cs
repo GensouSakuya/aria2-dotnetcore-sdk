@@ -1,4 +1,6 @@
-﻿namespace GensouSakuya.Aria2.SDK.Model.Contract
+﻿using GensouSakuya.Aria2.SDK.Model.Base;
+
+namespace GensouSakuya.Aria2.SDK.Model.Contract
 {
     internal class GetSessionInfoRequest : BaseRequest
     {

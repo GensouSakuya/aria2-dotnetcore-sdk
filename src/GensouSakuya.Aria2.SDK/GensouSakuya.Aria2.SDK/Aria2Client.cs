@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using GensouSakuya.Aria2.SDK.Model;
+using GensouSakuya.Aria2.SDK.Model.Base;
 
 namespace GensouSakuya.Aria2.SDK
 {
@@ -30,12 +31,12 @@ namespace GensouSakuya.Aria2.SDK
         /// <param name="proxy">代理地址</param>
         /// <param name="position">下载队列位置，超过队列长度则排到队尾</param>
         /// <returns>下载请求的GID</returns>
-        public async Task<string> AddUri(string uri, int? split = null, string proxy = null, int? position = null)
+        public async Task<string> AddUri(string uri, int? split = null, string proxy = null, int? position = null,string directory = null,ulong? maxSpeed= null)
         {
             return await AddUri(new List<string>
             {
                 uri
-            }, split, proxy, position);
+            }, split, proxy, position, directory, maxSpeed);
         }
 
         /// <summary>
@@ -46,9 +47,19 @@ namespace GensouSakuya.Aria2.SDK
         /// <param name="proxy">代理地址</param>
         /// <param name="position">下载队列位置，超过队列长度则排到队尾</param>
         /// <returns>下载请求的GID</returns>
-        public async Task<string> AddUri(IEnumerable<string> uris, int? split = null, string proxy = null,int? position = null)
+        public async Task<string> AddUri(IEnumerable<string> uris, int? split = null, string proxy = null,int? position = null,string directory = null, ulong? maxSpeed = null)
         {
-            var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy) ? new Options(split, proxy) : null;
+            var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy)
+                ? new Options
+                {
+                    Split = split,
+                    HttpProxy = proxy,
+                    Directory = directory,
+                    MaxDownloadSpeed = maxSpeed
+                }
+                : position.HasValue
+                    ? new Options()
+                    : null;
             var res = new AddUriResponse(await _client.SendRequestAsync(new AddUriRequest
             {
                 Uris = uris.ToList(),
@@ -68,7 +79,11 @@ namespace GensouSakuya.Aria2.SDK
         /// <returns>下载请求的GID</returns>
         public async Task<string> AddTorrentBase64(string torrentBase64, int? split = null, string proxy = null, int? position = null)
         {
-            var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy) ? new Options(split, proxy) : null;
+            var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy) ? new Options
+                {
+                    Split = split,
+                    HttpProxy = proxy
+                } : null;
             return new AddTorrentResponse(await _client.SendRequestAsync(new AddTorrentRequest
             {
                 torrent = torrentBase64,
@@ -127,7 +142,11 @@ namespace GensouSakuya.Aria2.SDK
         /// <returns></returns>
         public async Task<string> AddMetalink(string metalink, int? split = 0, string proxy = null, int? position = null)
         {
-            var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy) ? new Options(split, proxy) : null;
+            var option = split.HasValue || !string.IsNullOrWhiteSpace(proxy) ? new Options
+            {
+                Split = split,
+                HttpProxy = proxy
+            } : null;
             var res = new AddMetalinkResponse(await _client.SendRequestAsync(new AddMetalinkRequest
             {
                 Metalink = metalink,

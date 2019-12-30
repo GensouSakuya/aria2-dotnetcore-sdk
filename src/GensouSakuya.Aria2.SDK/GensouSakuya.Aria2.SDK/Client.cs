@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EdjCase.JsonRpc.Client;
 using GensouSakuya.Aria2.SDK.Model;
+using GensouSakuya.Aria2.SDK.Model.Base;
 using Newtonsoft.Json;
 
 namespace GensouSakuya.Aria2.SDK
@@ -14,7 +15,7 @@ namespace GensouSakuya.Aria2.SDK
         public Client(string baseUri,string secret)
         {
             var uri = new Uri(baseUri);
-            _rpcClient = new RpcClient(uri);
+            _rpcClient = new RpcClient(uri, new BaseRequestConverter());
             _secret = secret;
         }
 
@@ -57,11 +58,11 @@ namespace GensouSakuya.Aria2.SDK
         private RpcErrorResponse GetResByException(Exception e)
         {
             RpcClientInvalidStatusCodeException invalidStatusCodeException = null;
-            if (e != null && e is RpcClientInvalidStatusCodeException)
+            if (e is RpcClientInvalidStatusCodeException)
             {
                 invalidStatusCodeException = e as RpcClientInvalidStatusCodeException;
             }
-            else if (e.InnerException != null && e.InnerException is RpcClientInvalidStatusCodeException)
+            else if (e.InnerException is RpcClientInvalidStatusCodeException)
             {
                 invalidStatusCodeException = e.InnerException as RpcClientInvalidStatusCodeException;
             }

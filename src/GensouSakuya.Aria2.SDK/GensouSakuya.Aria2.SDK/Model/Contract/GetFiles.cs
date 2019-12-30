@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GensouSakuya.Aria2.SDK.Model.Base;
 
 namespace GensouSakuya.Aria2.SDK.Model
 {
